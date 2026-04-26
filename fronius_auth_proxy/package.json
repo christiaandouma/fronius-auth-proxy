@@ -4,15 +4,21 @@
   "description": "Fronius proxy",
   "main": "proxy.js",
   "scripts": {
-    "start": "node proxy.js"
+    "start": "node proxy.js",
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "author": "Sergio Pérez",
   "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
   "dependencies": {
-    "express": "4.18.2",
-    "request": "2.88.2",
-    "digest-header": "1.1.0",
-    "node-fetch": "3.3.2"
+    "express": "^4.22.1",
+    "digest-header": "1.1.0"
   }
 }
 
