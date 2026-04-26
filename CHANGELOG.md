@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.1] - 2026-04-26
+
+### Fixed
+- `logger.js` was missing from the Dockerfile `COPY` instruction, causing a `MODULE_NOT_FOUND` crash on startup
+
 ## [1.3.0] - 2026-04-26
 
 ### Added
