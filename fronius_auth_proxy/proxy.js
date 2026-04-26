@@ -28,4 +28,8 @@ app.all('/request', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => log(`Server is running on port ${PORT}`));
+if (require.main === module) {
+  app.listen(PORT, () => log(`Server is running on port ${PORT}`));
+}
+
+module.exports = app;

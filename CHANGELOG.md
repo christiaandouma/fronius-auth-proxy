@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.0] - 2026-04-26
+
+### Added
+- CI workflow (GitHub Actions) — runs tests on every push and pull request
+- Dependabot config — weekly updates for npm and GitHub Actions dependencies
+- Jest test suite covering `logger.js`, `proxy.js`, and `makeRequest.js` (11 tests)
+
+### Changed
+- `proxy.js` exports the Express app so tests can import it without starting the server
+
 ## [1.2.0] - 2026-04-26
 
 ### Changed
