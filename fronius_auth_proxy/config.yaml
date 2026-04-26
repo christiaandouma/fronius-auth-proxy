@@ -1,6 +1,6 @@
 name: "Fronius Auth Proxy"
 description: "HTTP digest authentication proxy for Fronius inverters. Allows Home Assistant to control export power limits without handling digest auth."
-version: "1.1.0"
+version: "1.2.0"
 slug: "fronius_auth_proxy"
 init: false
 arch:
