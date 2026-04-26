@@ -2,6 +2,10 @@ const http = require('http');
 const request = require('request');
 const digest = require('digest-header');
 
+const ts = () => new Date().toISOString();
+const log = (...a) => console.log(ts(), ...a);
+const err = (...a) => console.error(ts(), ...a);
+
 const makeRequest = async (requestData) => {
   let options = requestData.options
 
@@ -17,16 +21,16 @@ const makeRequest = async (requestData) => {
         const wwwAuthenticate = res.headers['x-www-authenticate'];
         const userpass = `${requestData.username}:${requestData.password}`;
         const auth = digest(options.method, options.path, wwwAuthenticate, userpass);
-        console.log("AUTH FOUND");
-        console.log(auth.split(','));
-        console.log(auth);
+        log("AUTH FOUND");
+        log(auth.split(','));
+        log(auth);
 
         resolve(auth);
       });
     });
 
     req.on('error', error => {
-      console.error('Error:', error);
+      err('Error:', error);
       reject(error);
     });
 
@@ -57,10 +61,10 @@ const makeRequest = async (requestData) => {
       });
     });
 
-    console.log(response.body);
+    log(response.body);
     return response
   } catch (error) {
-    console.error('Error:', error);
+    err('Error:', error);
   }
 };
 
