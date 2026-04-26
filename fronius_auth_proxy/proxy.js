@@ -1,16 +1,20 @@
 const express = require('express');
 const { makeRequest } = require('./makeRequest');
 
+const ts = () => new Date().toISOString();
+const log = (...a) => console.log(ts(), ...a);
+const err = (...a) => console.error(ts(), ...a);
+
 const app = express();
 const port = 3000;
 
 app.use(express.json());
 
 app.all('/request', async (req, res) => {
-  console.log('Requested Route:', req.path);
-  console.log(req.body);
+  log('Requested Route:', req.path);
+  log(req.body);
   try {
-    console.log(req.method);
+    log(req.method);
     const requestData = {
       protocol: req.protocol,
       options: {
@@ -27,11 +31,11 @@ app.all('/request', async (req, res) => {
     const request_result = await makeRequest(requestData);
     res = request_result;
   } catch (error) {
-    console.error('Error:', error);
+    err('Error:', error);
     res.status(500).json({ error: 'An error occurred while making the request.' });
   }
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  log(`Server is running on port ${port}`);
 });
