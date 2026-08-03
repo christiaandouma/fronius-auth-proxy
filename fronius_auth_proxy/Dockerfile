@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install --production
 
-COPY proxy.js makeRequest.js logger.js ./
+COPY proxy.js makeRequest.js logger.js digest.js ./
 
 COPY run.sh /
 RUN chmod a+x /run.sh

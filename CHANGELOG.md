@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.0] - 2026-08-03
+
+### Added
+- SHA-256 digest authentication support, required by GEN24/Primo inverters (they challenge with `algorithm="SHA256"` instead of the MD5 default used by older Symo/Galvo devices). The algorithm is now negotiated from the inverter's `WWW-Authenticate` challenge, including the `-sess` variants.
+
+### Changed
+- Replaced the unmaintained `digest-header` dependency with an in-repo digest implementation (`digest.js`) that supports both MD5 and SHA-256.
+
 ## [1.4.0] - 2026-08-03
 
 ### Added

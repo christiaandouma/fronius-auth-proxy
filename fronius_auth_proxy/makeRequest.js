@@ -1,6 +1,6 @@
 const http = require('http');
 const https = require('https');
-const digest = require('digest-header');
+const digest = require('./digest');
 const { log } = require('./logger');
 
 const httpRequest = (options, body) => new Promise((resolve, reject) => {
