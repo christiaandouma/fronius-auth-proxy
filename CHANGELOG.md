@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0] - 2026-08-03
+
+### Added
+- HTTPS support for connecting to the inverter (`fronius_https` addon option / `https` query param / `FRONIUS_HTTPS` env var) — needed for inverters like the GEN24/Primo that serve their API over HTTPS
+- `fronius_reject_unauthorized` addon option (`rejectUnauthorized` query param / `FRONIUS_REJECT_UNAUTHORIZED` env var) to control TLS certificate verification; defaults to `false` since Fronius devices typically use a self-signed certificate
+- Port now defaults to `443` instead of `80` when HTTPS is enabled and no explicit port is given
+
 ## [1.3.1] - 2026-04-26
 
 ### Fixed
