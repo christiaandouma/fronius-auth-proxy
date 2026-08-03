@@ -1,10 +1,10 @@
 jest.mock('http');
 jest.mock('https');
-jest.mock('digest-header');
+jest.mock('../digest');
 
 const http = require('http');
 const https = require('https');
-const digest = require('digest-header');
+const digest = require('../digest');
 const { makeRequest } = require('../makeRequest');
 
 const mockHttp = (responses, transport = http) => {

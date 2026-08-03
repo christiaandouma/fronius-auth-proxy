@@ -101,11 +101,11 @@ Fronius inverters use HTTP digest authentication, which Home Assistant's `rest_c
 
 1. Receives a plain HTTP request from Home Assistant.
 2. Makes an initial unauthenticated request to the inverter to obtain the digest challenge.
-3. Computes the digest auth header using the configured credentials.
+3. Computes the digest auth header using the configured credentials, matching whichever algorithm the inverter requests (MD5 on older Symo/Galvo devices, SHA-256 on GEN24/Primo).
 4. Replays the request with proper authentication and returns the response.
 
 ## Notes
 
-- This addon uses the same digest auth library as the Fronius web UI.
+- Digest authentication supports both MD5 (older Symo/Galvo devices) and SHA-256 (GEN24/Primo), auto-detected from the inverter's challenge.
 - A Fronius firmware update may break this functionality.
 - See the [original project](https://github.com/sergioperez/fronius-auth-proxy) for more background.
