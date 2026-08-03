@@ -1,13 +1,15 @@
 jest.mock('http');
+jest.mock('https');
 jest.mock('digest-header');
 
 const http = require('http');
+const https = require('https');
 const digest = require('digest-header');
 const { makeRequest } = require('../makeRequest');
 
-const mockHttp = (responses) => {
+const mockHttp = (responses, transport = http) => {
   let call = 0;
-  http.request.mockImplementation((_, callback) => {
+  transport.request.mockImplementation((_, callback) => {
     const resp = responses[call++];
     const mockRes = {
       statusCode: resp.statusCode,
@@ -93,4 +95,39 @@ test('rejects when http.request errors', async () => {
     username: 'service',
     password: 'pass',
   })).rejects.toThrow('ECONNREFUSED');
+});
+
+test('uses the https module when options.https is true', async () => {
+  mockHttp([
+    { statusCode: 401, headers: { 'x-www-authenticate': 'Digest realm="test"' }, body: '' },
+    { statusCode: 200, headers: {}, body: '{"result":"ok"}' },
+  ], https);
+  digest.mockReturnValue('Digest username="service",...');
+
+  const result = await makeRequest({
+    options: { hostname: '192.168.1.1', port: 443, path: '/api', method: 'GET', https: true, rejectUnauthorized: false },
+    username: 'service',
+    password: 'pass',
+  });
+
+  expect(https.request).toHaveBeenCalledTimes(2);
+  expect(http.request).not.toHaveBeenCalled();
+  expect(result.statusCode).toBe(200);
+});
+
+test('passes rejectUnauthorized through to the https request options', async () => {
+  mockHttp([
+    { statusCode: 401, headers: { 'x-www-authenticate': 'Digest realm="test"' }, body: '' },
+    { statusCode: 200, headers: {}, body: '' },
+  ], https);
+  digest.mockReturnValue('Digest token="abc"');
+
+  await makeRequest({
+    options: { hostname: '192.168.1.1', port: 443, path: '/api', method: 'GET', https: true, rejectUnauthorized: false },
+    username: 'service',
+    password: 'pass',
+  });
+
+  const secondOptions = https.request.mock.calls[1][0];
+  expect(secondOptions.rejectUnauthorized).toBe(false);
 });

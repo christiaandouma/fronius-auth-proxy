@@ -56,3 +56,27 @@ test('omits body for requests with empty JSON object', async () => {
   await request(app).get('/request?path=/api');
   expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({ body: undefined }));
 });
+
+test('enables https and defaults the port to 443 when https=true', async () => {
+  makeRequest.mockResolvedValue({ statusCode: 200, body: '' });
+  await request(app).get('/request?hostname=192.168.1.1&path=/api&https=true');
+  expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+    options: expect.objectContaining({ port: 443, https: true, rejectUnauthorized: false }),
+  }));
+});
+
+test('passes rejectUnauthorized=true through when requested', async () => {
+  makeRequest.mockResolvedValue({ statusCode: 200, body: '' });
+  await request(app).get('/request?hostname=192.168.1.1&path=/api&https=true&rejectUnauthorized=true');
+  expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+    options: expect.objectContaining({ rejectUnauthorized: true }),
+  }));
+});
+
+test('defaults to http on port 80 when https is not set', async () => {
+  makeRequest.mockResolvedValue({ statusCode: 200, body: '' });
+  await request(app).get('/request?hostname=192.168.1.1&path=/api');
+  expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+    options: expect.objectContaining({ port: 80, https: false }),
+  }));
+});

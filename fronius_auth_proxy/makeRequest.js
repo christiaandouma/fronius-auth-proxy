@@ -1,9 +1,11 @@
 const http = require('http');
+const https = require('https');
 const digest = require('digest-header');
 const { log } = require('./logger');
 
 const httpRequest = (options, body) => new Promise((resolve, reject) => {
-  const req = http.request(options, res => {
+  const transport = options.https ? https : http;
+  const req = transport.request(options, res => {
     let data = '';
     res.on('data', chunk => { data += chunk; });
     res.on('end', () => resolve({ statusCode: res.statusCode, headers: res.headers, body: data }));

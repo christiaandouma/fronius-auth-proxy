@@ -16,9 +16,11 @@ Based on [sergioperez/fronius-auth-proxy](https://github.com/sergioperez/fronius
 | Option | Description | Default |
 |---|---|---|
 | `fronius_hostname` | IP address or hostname of your Fronius inverter | _(required)_ |
-| `fronius_port` | HTTP port of the inverter | `80` |
+| `fronius_port` | Port of the inverter | `80` |
 | `fronius_username` | Inverter username | `service` |
 | `fronius_password` | Inverter password | _(required)_ |
+| `fronius_https` | Talk to the inverter over HTTPS instead of HTTP | `false` |
+| `fronius_reject_unauthorized` | Verify the inverter's TLS certificate (only relevant when `fronius_https` is `true`). Fronius devices (e.g. GEN24) normally present a self-signed certificate, so this defaults to `false` | `false` |
 
 Example addon configuration:
 
@@ -28,6 +30,20 @@ fronius_port: 80
 fronius_username: "service"
 fronius_password: "your-password"
 ```
+
+### Using HTTPS
+
+Some inverters (e.g. GEN24/Primo) expose their web interface over HTTPS with a self-signed certificate. To have the proxy connect to the inverter over HTTPS:
+
+```yaml
+fronius_hostname: "192.168.1.100"
+fronius_port: 443
+fronius_username: "service"
+fronius_password: "your-password"
+fronius_https: true
+```
+
+Because the certificate is self-signed, `fronius_reject_unauthorized` defaults to `false` so the connection isn't rejected. Set it to `true` only if your inverter has a certificate that can be validated.
 
 ## Usage in Home Assistant
 
@@ -77,7 +93,7 @@ rest_command:
       }
 ```
 
-You can also override the inverter connection details per-request via query parameters (`hostname`, `port`, `username`, `password`) if needed.
+You can also override the inverter connection details per-request via query parameters (`hostname`, `port`, `username`, `password`, `https`, `rejectUnauthorized`) if needed, e.g. `&https=true&rejectUnauthorized=false`.
 
 ## How it works
 

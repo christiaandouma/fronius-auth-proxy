@@ -29,3 +29,6 @@ curl -X POST \
   }' \
   "http://localhost:30072/request?username=myuser&password=mypass%&port=80&hostname=192.168.10.10&path=/config/exportlimit/?method=save"
 
+# Same request, but talking to the inverter over HTTPS (e.g. GEN24/Primo with a self-signed certificate):
+# "http://localhost:30072/request?username=myuser&password=mypass%&port=443&hostname=192.168.10.10&https=true&path=/config/exportlimit/?method=save"
+
