@@ -14,7 +14,7 @@
   "license": "MIT",
   "devDependencies": {
     "jest": "^30.4.2",
-    "supertest": "^7.0.0"
+    "supertest": "^7.3.0"
   },
   "dependencies": {
     "express": "^4.22.1"
